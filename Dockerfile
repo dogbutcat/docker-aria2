@@ -14,7 +14,7 @@ WORKDIR /opt/builder
 RUN apk add openssl-dev nettle-dev gmp-dev g++ make binutils\
 	libssh2-dev c-ares-dev expat-dev zlib-dev sqlite-dev sqlite-static pkgconfig
 
-RUN wget ${ARIA2} -O aria2.tar.gz && tar xvf aria2.tar.gz
+RUN wget -qO- ${ARIA2} | tar xvzf -
 
 RUN cd aria2-${ARIA2_VERSION} && sed -i'' "443s/16/4096/g" src/OptionHandlerFactory.cc &&\
 	# dynamic build setting
