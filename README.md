@@ -6,6 +6,16 @@ This repo is a combination of [AriaNg](https://github.com/mayswind/AriaNg) and [
 
 ## How to Use
 
+### UnRaid OS quick deploy
+
+if you want to deploy on your UnRaid OS, I have already provide out of box solution, [UnRaid-aria2-template](./UnRaid-aria2-template.xml) in project. Importing template with approach:
+
+1. no need to create docker template repository temporary, so use second one...
+
+1. Download and Copy the [UnRaid-aria2-template](./UnRaid-aria2-template.xml) to the path - `/boot/config/plugins/dockerMan/templates-user` of USB Flash drive.
+
+### Common deploy
+
 The simplest way to use it is pulling the image from dockerhub and RUN it with my default aria configuration. default rpc secret token is `aadd6df9284fa9becd2eb3b51818c5c2`
 > bt-tracker auto retrieving data from [This Repo](https://github.com/ngosang/trackerslist) with [trackers_all.txt](https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt) when container is starting, so you can update tracker with restart container way. Also can update from ui bt setting segment.
 

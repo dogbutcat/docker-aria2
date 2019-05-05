@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>docker-aria2</Name>
+  <Repository>dogbutcat/docker-aria2</Repository>
+  <Registry>https://hub.docker.com/r/dogbutcat/docker-aria2/</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://hub.docker.com/r/dogbutcat/docker-aria2/</Support>
+  <Project/>
+  <Overview>custom compile + AriaNg ui = good downloader   Converted By Community Applications   Always verify this template (and values) against the dockerhub support page for the container</Overview>
+  <Category/>
+  <WebUI>http://[IP]:[PORT:8080]</WebUI>
+  <TemplateURL/>
+  <Icon>/plugins/dynamix.docker.manager/images/question.png</Icon>
+  <ExtraParams/>
+  <PostArgs>--enable-rpc=true --input-file=.aria2/aria2.session --conf-path=config/aria2.conf --rpc-listen-port=3344</PostArgs>
+  <CPUset/>
+  <DateInstalled>1556876498</DateInstalled>
+  <DonateText/>
+  <DonateLink/>
+  <Description>custom compile + AriaNg ui = good downloader   Converted By Community Applications   Always verify this template (and values) against the dockerhub support page for the container</Description>
+  <Networking>
+    <Mode>bridge</Mode>
+    <Publish>
+      <Port>
+        <HostPort>8080</HostPort>
+        <ContainerPort>80</ContainerPort>
+        <Protocol>tcp</Protocol>
+      </Port>
+      <Port>
+        <HostPort>6800</HostPort>
+        <ContainerPort>3344</ContainerPort>
+        <Protocol>tcp</Protocol>
+      </Port>
+    </Publish>
+  </Networking>
+  <Data>
+    <Volume>
+      <HostDir>/mnt/user/aria/data/</HostDir>
+      <ContainerDir>/data</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+    <Volume>
+      <HostDir>/mnt/user/aria/sys/</HostDir>
+      <ContainerDir>/opt/aria2/.aria2</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+  </Data>
+  <Environment/>
+  <Labels/>
+  <Config Name="data" Target="/data" Default="/mnt/user" Mode="rw" Description="Container Path: /data" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/aria/data/</Config>
+  <Config Name="webui" Target="80" Default="8080" Mode="tcp" Description="Container Port: 80" Type="Port" Display="always" Required="false" Mask="false">8080</Config>
+  <Config Name="rpc-port" Target="3344" Default="8081" Mode="tcp" Description="Container Port: 3344" Type="Port" Display="always" Required="false" Mask="false">6800</Config>
+  <Config Name="sys" Target="/opt/aria2/.aria2" Default="/mnt/user" Mode="rw" Description="Container Path: /opt/aria2/.aria2" Type="Path" Display="always-hide" Required="false" Mask="false">/mnt/user/aria/sys/</Config>
+</Container>
