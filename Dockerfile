@@ -26,8 +26,8 @@ RUN cd aria2-${ARIA2_VERSION} && sed -i'' "443s/16/4096/g" src/OptionHandlerFact
 
 FROM alpine:3.9 as resolver
 
-ENV VERSION 1.1
-ENV UI_VERSION 1.1.4
+ENV VERSION 1.2
+ENV UI_VERSION 1.1.6
 WORKDIR /opt/builder
 
 ENV WEBUI=https://github.com/mayswind/AriaNg/releases/download/${UI_VERSION}/AriaNg-${UI_VERSION}-AllInOne.zip
