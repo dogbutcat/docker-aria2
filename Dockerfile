@@ -2,7 +2,7 @@ FROM alpine:3.9 as builder
 
 LABEL MAINTAINER='dogbutcat@hotmail.com'
 
-ENV ARIA2_VERSION 1.35.0
+ENV ARIA2_VERSION 1.36.0
 ENV ARIA2=https://github.com/aria2/aria2/releases/download/release-${ARIA2_VERSION}/aria2-${ARIA2_VERSION}.tar.gz
 WORKDIR /opt/builder
 
@@ -26,8 +26,8 @@ RUN cd aria2-${ARIA2_VERSION} && sed -i'' "443s/16/4096/g" src/OptionHandlerFact
 
 FROM alpine:3.9 as resolver
 
-ENV VERSION 1.2
-ENV UI_VERSION 1.1.6
+ENV VERSION 1.3
+ENV UI_VERSION 1.2.2
 WORKDIR /opt/builder
 
 ENV WEBUI=https://github.com/mayswind/AriaNg/releases/download/${UI_VERSION}/AriaNg-${UI_VERSION}-AllInOne.zip
