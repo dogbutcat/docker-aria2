@@ -26,7 +26,7 @@ RUN cd aria2-${ARIA2_VERSION} && sed -i'' "443s/16/4096/g" src/OptionHandlerFact
 
 FROM alpine:3.9 as resolver
 
-ENV VERSION 1.3.1
+ENV VERSION 1.4.0
 ENV UI_VERSION 1.2.3
 WORKDIR /opt/builder
 
@@ -37,15 +37,17 @@ RUN wget $WEBUI -O ui.zip \
 	&& unzip ui.zip -d ../ui
 
 
-FROM nginx:1.15.10-alpine
+FROM nginxinc/nginx-unprivileged:1.21-alpine
 
 WORKDIR /opt/aria2
 VOLUME [ "/data" ]
-EXPOSE 80
+EXPOSE 8080
 
 # for dynamic build install deps
 # RUN apk add gnutls nettle gmp libstdc++\
 # 	libssh2 c-ares expat zlib sqlite-libs
+# RUN adduser -S appuser -u 1000 -G root
+# USER appuser
 
 COPY --from=resolver /opt/ui /usr/share/nginx/html
 COPY --from=builder /opt/aria2/aria2c /usr/sbin
@@ -58,4 +60,4 @@ COPY .aria2 .aria2
 
 ENTRYPOINT ["./scripts/start.sh" ]
 # secret is MD5('create it never known')
-CMD [ "--enable-rpc=true","--conf-path","./config/aria2.conf","--rpc-secret","aadd6df9284fa9becd2eb3b51818c5c2","--rpc-listen-port","8080" ]
+CMD [ "--enable-rpc=true","--conf-path","./config/aria2.conf","--rpc-secret","aadd6df9284fa9becd2eb3b51818c5c2","--rpc-listen-port","8081" ]
