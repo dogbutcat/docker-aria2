@@ -11,7 +11,7 @@ WORKDIR /opt/builder
 # 	libssh2-dev c-ares-dev expat-dev zlib-dev sqlite-dev pkgconfig
 
 # static build setting
-RUN apk add openssl-dev nettle-dev gmp-dev g++ make binutils\
+RUN apk add openssl3-dev nettle-dev gmp-dev g++ make binutils \
 	libssh2-dev c-ares-dev expat-dev zlib-dev sqlite-dev sqlite-static pkgconfig
 
 RUN wget -qO- ${ARIA2} | tar xvzf -
@@ -20,7 +20,7 @@ RUN cd aria2-${ARIA2_VERSION} && sed -i'' "443s/16/4096/g" src/OptionHandlerFact
 	# dynamic build setting
 	# ./configure && make -j 8 &&\
 	# static build setting
-	./configure ARIA2_STATIC=yes --without-gnutls --with-openssl && make -j 8 &&\
+	./configure ARIA2_STATIC=yes --without-gnutls --with-openssl --with-ca-bundle='/etc/ssl/certs/ca-certificates.crt' && make -j 8 &&\
 	mkdir ../../aria2 && cp ./src/aria2c ../../aria2 && strip ../../aria2/aria2c
 
 
