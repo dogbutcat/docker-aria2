@@ -1,4 +1,4 @@
-FROM alpine:3.9 as builder
+FROM alpine:3.15 as builder
 
 LABEL MAINTAINER='dogbutcat@hotmail.com'
 
@@ -11,11 +11,16 @@ WORKDIR /opt/builder
 # 	libssh2-dev c-ares-dev expat-dev zlib-dev sqlite-dev pkgconfig
 
 # static build setting
-RUN apk add openssl3-dev nettle-dev gmp-dev g++ make binutils \
-	libssh2-dev c-ares-dev expat-dev zlib-dev sqlite-dev sqlite-static pkgconfig
+RUN apk add openssl-libs-static openssl-dev nettle-static nettle-dev gmp-dev g++ make binutils \
+	libssh2-static libssh2-dev c-ares-static c-ares-dev expat-static expat-dev zlib-static zlib-dev \
+	sqlite-static sqlite-dev pkgconfig
+
+#RUN gcc -lcares --verbose
 
 RUN wget -qO- ${ARIA2} | tar xvzf -
 
+RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/:/lib:/usr/glibc-compat/lib
+RUN export LIBRARY_PATH=$LIBRARY_PATH:/usr/lib/:/lib:/usr/glibc-compat/lib
 RUN cd aria2-${ARIA2_VERSION} && sed -i'' "443s/16/4096/g" src/OptionHandlerFactory.cc &&\
 	# dynamic build setting
 	# ./configure && make -j 8 &&\
@@ -24,7 +29,7 @@ RUN cd aria2-${ARIA2_VERSION} && sed -i'' "443s/16/4096/g" src/OptionHandlerFact
 	mkdir ../../aria2 && cp ./src/aria2c ../../aria2 && strip ../../aria2/aria2c
 
 
-FROM alpine:3.9 as resolver
+FROM alpine:3.15 as resolver
 
 ENV VERSION 1.4.1
 ENV UI_VERSION 1.2.4
