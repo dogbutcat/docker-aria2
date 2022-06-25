@@ -2,7 +2,8 @@ FROM alpine:3.15 as builder
 
 LABEL MAINTAINER='dogbutcat@hotmail.com'
 
-ENV ARIA2_VERSION 1.36.0
+# ENV ARIA2_VERSION 1.36.0
+ENV ARIA2_COMMIT_HASH a433352b675bd6a258ad97c4f339055f08c443ed
 ENV GNUTLS_MAIN_VERSION 3.6
 ENV GNUTLS_VERSION 3.6.16
 ENV P11_VERSION 0.24.1
@@ -10,7 +11,8 @@ ENV TASN_VERION 4.18.0
 ENV LIBTASN1=http://ftp.gnu.org/gnu/libtasn1/libtasn1-${TASN_VERION}.tar.gz
 ENV P11=https://github.com/p11-glue/p11-kit/releases/download/${P11_VERSION}/p11-kit-${P11_VERSION}.tar.xz
 ENV GNUTLS=https://www.gnupg.org/ftp/gcrypt/gnutls/v${GNUTLS_MAIN_VERSION}/gnutls-${GNUTLS_VERSION}.tar.xz
-ENV ARIA2=https://github.com/aria2/aria2/releases/download/release-${ARIA2_VERSION}/aria2-${ARIA2_VERSION}.tar.gz
+# ENV ARIA2=https://github.com/aria2/aria2/releases/download/release-${ARIA2_VERSION}/aria2-${ARIA2_VERSION}.tar.gz
+ENV ARIA2=https://github.com/aria2/aria2.git
 WORKDIR /opt/builder
 
 # dynamic build setting
@@ -22,6 +24,7 @@ RUN apk add openssl-libs-static libgcrypt-static libgcrypt-dev libunistring-stat
 	nettle-static nettle-dev gmp-dev g++ make binutils \
 	libssh2-static libssh2-dev c-ares-static c-ares-dev expat-static expat-dev zlib-static zlib-dev \
 	sqlite-static sqlite-dev pkgconfig xz
+RUN apk add libxml2-dev git autoconf cppunit-dev automake libtool gettext-tiny gettext-tiny-dev
 
 # deps for build libtasn1
 RUN apk add libffi-dev
@@ -42,8 +45,9 @@ RUN wget -qO- ${GNUTLS} | tar Jxvf -
 RUN cd gnutls-${GNUTLS_VERSION} && ./configure --prefix=/usr --enable-static --without-p11-kit && make && make install
  
 # build aria2
-RUN wget -qO- ${ARIA2} | tar xvzf -
-RUN cd aria2-${ARIA2_VERSION} && sed -i'' "443s/16/4096/g" src/OptionHandlerFactory.cc &&\
+# RUN wget -qO- ${ARIA2} | tar xvzf -
+RUN git clone ${ARIA2} && cd aria2 && git checkout ${ARIA2_COMMIT_HASH} && autoreconf -i
+RUN cd aria2 && sed -i'' "443s/16/4096/g" src/OptionHandlerFactory.cc &&\
 	# dynamic build setting
 	# ./configure && make -j 8 &&\
 	# static build setting
